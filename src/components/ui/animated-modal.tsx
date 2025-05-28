@@ -101,7 +101,7 @@ export const ModalBody = ({
     }
   }, [open]);
 
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const { setOpen } = useModal();
   useOutsideClick(modalRef, () => setOpen(false));
 
@@ -170,9 +170,7 @@ export const ModalContent = ({
   className?: string;
 }) => {
   return (
-    <div className={cn("flex flex-col flex-1 p-8", className)}>
-      {children}
-    </div>
+    <div className={cn("flex flex-col flex-1 p-8", className)}>{children}</div>
   );
 };
 
@@ -183,11 +181,7 @@ export const ModalFooter = ({
   children: ReactNode;
   className?: string;
 }) => {
-  return (
-    <div className={cn("flex p-4", className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn("flex p-4", className)}>{children}</div>;
 };
 
 const Overlay = ({ className }: { className?: string }) => {
@@ -239,8 +233,8 @@ const CloseIcon = () => {
 // Hook to detect clicks outside of a component.
 // Add it in a separate file, I've added here for simplicity
 export const useOutsideClick = (
-  ref: React.RefObject<HTMLDivElement>,
-  callback: Function
+  ref: React.RefObject<HTMLDivElement | null>,
+  callback: (...args: any) => void
 ) => {
   useEffect(() => {
     const listener = (event: any) => {

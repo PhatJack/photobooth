@@ -17,12 +17,29 @@ import {
 } from "@/components/ui/animated-modal";
 import { ColourfulText } from "@/components/ui/colorful-text";
 import { Highlight } from "@/components/ui/hero-highlight";
+import BounceCards from "@/components/ui/bounce-cards";
 
 const Welcome = () => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const theme = useTheme();
-  const shadowColor = theme.resolvedTheme === "dark" ? "white" : "black";
+  const shadowColor = theme.theme === "dark" ? "white" : "black";
+
+  const images = [
+    "/cards/1.jpg",
+    "/cards/2.jpg",
+    "/cards/3.jpg",
+    "/cards/4.jpg",
+    "/cards/5.jpg",
+  ];
+
+  const transformStyles = [
+    "rotate(5deg) translate(-200px)",
+    "rotate(0deg) translate(-100px)",
+    "rotate(-5deg)",
+    "rotate(5deg) translate(100px)",
+    "rotate(-5deg) translate(200px)",
+  ];
 
   const socialLinks = [
     {
@@ -88,10 +105,12 @@ const Welcome = () => {
               <ModalBody>
                 <ModalContent>
                   <div className="flex flex-col space-y-4">
+                    <h1>👨‍💻 Developer Detail</h1>
                     <p className="text-balance">
-                      👋 Hi there! I'm{" "}
+                      👋 Hi there! I&apos;m{" "}
                       <ColourfulText text="Jack Phat" className="font-bold" />,
-                      a passionate front-end developer and the creator of this platform {" "}
+                      a passionate front-end developer and the creator of this
+                      platform{" "}
                       <ColourfulText text="PhotoPiP" className="font-bold" />. I
                       built this website to make capturing and sharing moments
                       more fun and engaging.
@@ -99,7 +118,8 @@ const Welcome = () => {
                       🛠️ This project was built with{" "}
                       <span className="font-semibold">Next.js</span> and uses{" "}
                       <span className="font-semibold">Framer Motion</span> and{" "}
-                      <span className="font-semibold">GSAP</span> for smooth animation.
+                      <span className="font-semibold">GSAP</span> for smooth
+                      animation.
                       <br />
                     </p>
 
@@ -141,6 +161,18 @@ const Welcome = () => {
               stroke="none"
             />
           </p>
+          <div className="mt-10 sm:block hidden">
+            <BounceCards
+              images={images}
+              containerWidth={500}
+              containerHeight={250}
+              animationDelay={1}
+              animationStagger={0.08}
+              easeType="elastic.out(1, 0.5)"
+              transformStyles={transformStyles}
+              enableHover={true}
+            />
+          </div>
         </div>
       </div>
     </BackgroundBeamsWithCollision>
