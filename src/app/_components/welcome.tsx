@@ -4,7 +4,6 @@ import { BackgroundBeamsWithCollision } from "@/components/ui/backgroundbeamwith
 import { LineShadowText } from "@/components/ui/lineshadowtext";
 import { useTheme } from "next-themes";
 import { AuroraText } from "@/components/ui/aurora-text";
-import { useRouter } from "next/navigation";
 import { WordRotate } from "@/components/ui/words-rotate";
 import { Heart } from "lucide-react";
 import Link from "next/link";
@@ -18,10 +17,10 @@ import {
 import { ColourfulText } from "@/components/ui/colorful-text";
 import { Highlight } from "@/components/ui/hero-highlight";
 import BounceCards from "@/components/ui/bounce-cards";
+import { Cover } from "@/components/ui/cover";
 
 const Welcome = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
   const theme = useTheme();
   const shadowColor = theme.theme === "dark" ? "white" : "black";
 
@@ -89,7 +88,6 @@ const Welcome = () => {
         />
         <button
           type="button"
-          onClick={() => router.push("action")}
           aria-label="Start"
           className="w-fit cursor-pointer px-8 py-1 border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] "
         >
@@ -105,7 +103,7 @@ const Welcome = () => {
               <ModalBody>
                 <ModalContent>
                   <div className="flex flex-col space-y-4">
-                    <h1>👨‍💻 Developer Detail</h1>
+                    <Cover>👨‍💻 Developer Detail</Cover>
                     <p className="text-balance">
                       👋 Hi there! I&apos;m{" "}
                       <ColourfulText text="Jack Phat" className="font-bold" />,
