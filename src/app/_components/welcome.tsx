@@ -1,9 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { Dispatch, useState } from "react";
 import { BackgroundBeamsWithCollision } from "@/components/ui/backgroundbeamwithcollision";
-import { LineShadowText } from "@/components/ui/lineshadowtext";
-import { useTheme } from "next-themes";
-import { AuroraText } from "@/components/ui/aurora-text";
 import { WordRotate } from "@/components/ui/words-rotate";
 import { Heart } from "lucide-react";
 import Link from "next/link";
@@ -18,11 +15,15 @@ import { ColourfulText } from "@/components/ui/colorful-text";
 import { Highlight } from "@/components/ui/hero-highlight";
 import BounceCards from "@/components/ui/bounce-cards";
 import { Cover } from "@/components/ui/cover";
+import Heading from "@/components/heading";
 
-const Welcome = () => {
+interface Props {
+  isStarted: boolean;
+  setIsStarted: Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Welcome = ({ isStarted, setIsStarted }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const theme = useTheme();
-  const shadowColor = theme.theme === "dark" ? "white" : "black";
 
   const images = [
     "/cards/1.jpg",
@@ -71,12 +72,7 @@ const Welcome = () => {
     <BackgroundBeamsWithCollision className="h-screen bg-background">
       <div className="w-full flex flex-col items-center space-y-4">
         <div className="flex gap-2">
-          <h1 className="text-foreground w-auto flex gap-1 text-center text-balance text-5xl font-semibold leading-none tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
-            <LineShadowText className="italic" shadowColor={shadowColor}>
-              Photo
-            </LineShadowText>
-            <AuroraText>PiP</AuroraText>
-          </h1>
+          <Heading />
         </div>
         <WordRotate
           className="text-base sm:text-2xl font-medium text-foreground"
@@ -89,6 +85,9 @@ const Welcome = () => {
         <button
           type="button"
           aria-label="Start"
+          onClick={() => {
+            setIsStarted(true);
+          }}
           className="w-fit cursor-pointer px-8 py-1 border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] "
         >
           Start
