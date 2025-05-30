@@ -1,7 +1,12 @@
-// import { Meteors } from "@/components/ui/meteors";
 "use client";
+import { useState } from "react";
 import Welcome from "./_components/welcome";
+import Studio from "./_components/studio";
 
 export default function Home() {
-  return <Welcome />;
+  const [isStarted, setIsStarted] = useState(false);
+  if (isStarted) {
+    return <Studio />;
+  }
+  return <Welcome isStarted={isStarted} setIsStarted={setIsStarted} />;
 }
