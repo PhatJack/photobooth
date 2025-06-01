@@ -16,6 +16,7 @@ import { Highlight } from "@/components/ui/hero-highlight";
 import BounceCards from "@/components/ui/bounce-cards";
 import { Cover } from "@/components/ui/cover";
 import Heading from "@/components/heading";
+import { motion } from "motion/react";
 
 interface Props {
   isStarted: boolean;
@@ -68,31 +69,64 @@ const Welcome = ({ isStarted, setIsStarted }: Props) => {
     },
   ];
 
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
   return (
     <BackgroundBeamsWithCollision className="h-screen bg-background">
-      <div className="w-full flex flex-col items-center space-y-4">
-        <div className="flex gap-2">
+      <motion.div
+        className="w-full flex flex-col items-center space-y-4"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div className="flex gap-2" variants={fadeInUp}>
           <Heading />
-        </div>
-        <WordRotate
-          className="text-base sm:text-2xl font-medium text-foreground"
-          words={[
-            "Capture the Moment. Cherish the Memory.",
-            "Timeless Photos, Effortless Fun.",
-            "Making Your Moments Unforgettable.",
-          ]}
-        />
-        <button
+        </motion.div>
+        <motion.div variants={fadeInUp}>
+          <WordRotate
+            className="text-base sm:text-2xl font-medium text-foreground"
+            words={[
+              "Capture the Moment. Cherish the Memory.",
+              "Timeless Photos, Effortless Fun.",
+              "Making Your Moments Unforgettable.",
+            ]}
+          />
+        </motion.div>
+        <motion.button
           type="button"
           aria-label="Start"
           onClick={() => {
             setIsStarted(true);
           }}
-          className="w-fit cursor-pointer px-8 py-1 border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] "
+          className="w-fit cursor-pointer px-8 py-1 border-2 border-black dark:border-white uppercase bg-white text-black transition duration-300 shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] hover:translate-y-[-2px] hover:shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_rgba(0,0,0),6px_6px_rgba(0,0,0)] dark:hover:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_rgba(255,255,255),6px_6px_rgba(255,255,255)]"
+          variants={fadeInUp}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           Start
-        </button>
-        <div className="flex flex-col items-center gap-2 sm:text-lg">
+        </motion.button>
+        <motion.div
+          className="flex flex-col items-center gap-2 sm:text-lg"
+          variants={fadeInUp}
+        >
           <div>
             Developed by{" "}
             <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -149,7 +183,12 @@ const Welcome = ({ isStarted, setIsStarted }: Props) => {
               </ModalBody>
             </Modal>
           </div>
-          <p className="flex items-center gap-0.5">
+          <motion.p
+            className="flex items-center gap-0.5"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+          >
             Built with{" "}
             <Heart
               className="animate-heartbeat"
@@ -157,21 +196,21 @@ const Welcome = ({ isStarted, setIsStarted }: Props) => {
               fill="red"
               stroke="none"
             />
-          </p>
+          </motion.p>
           <div className="mt-10 sm:block hidden">
             <BounceCards
               images={images}
               containerWidth={500}
               containerHeight={250}
-              animationDelay={1}
+              animationDelay={2}
               animationStagger={0.08}
               easeType="elastic.out(1, 0.5)"
               transformStyles={transformStyles}
               enableHover={true}
             />
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </BackgroundBeamsWithCollision>
   );
 };
