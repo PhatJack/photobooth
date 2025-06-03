@@ -17,13 +17,10 @@ import BounceCards from "@/components/ui/bounce-cards";
 import { Cover } from "@/components/ui/cover";
 import Heading from "@/components/heading";
 import { motion } from "motion/react";
+import { usePhotoPiPContext } from "@/context/PhotoPiPContext";
 
-interface Props {
-  isStarted: boolean;
-  setIsStarted: Dispatch<React.SetStateAction<boolean>>;
-}
-
-const Welcome = ({ isStarted, setIsStarted }: Props) => {
+const Welcome = () => {
+  const [state, dispatch] = usePhotoPiPContext();
   const [isOpen, setIsOpen] = useState(false);
 
   const images = [
@@ -114,9 +111,9 @@ const Welcome = ({ isStarted, setIsStarted }: Props) => {
           type="button"
           aria-label="Start"
           onClick={() => {
-            setIsStarted(true);
+            dispatch({ type: "START", payload: true });
           }}
-          className="w-fit cursor-pointer px-8 py-1 border-2 border-black dark:border-white uppercase bg-white text-black transition duration-300 shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] hover:translate-y-[-2px] hover:shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_rgba(0,0,0),6px_6px_rgba(0,0,0)] dark:hover:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_rgba(255,255,255),6px_6px_rgba(255,255,255)]"
+          className="w-fit cursor-pointer px-8 py-1 border-2 border-black dark:border-white uppercase bg-white text-black shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] hover:translate-y-[-2px] hover:shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_rgba(0,0,0),6px_6px_rgba(0,0,0)] dark:hover:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_rgba(255,255,255),6px_6px_rgba(255,255,255)]"
           variants={fadeInUp}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
