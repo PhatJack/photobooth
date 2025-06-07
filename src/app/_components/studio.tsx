@@ -1,32 +1,69 @@
 import Heading from "@/components/heading";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import { Dock, DockIcon } from "@/components/ui/dock";
 import { Camera, Printer, Settings, RefreshCw, X } from "lucide-react";
 import { motion } from "motion/react"; // Fixed import
 import PreviewImages from "@/components/preview-images";
+import { usePhotoPiPContext } from "@/context/PhotoPiPContext";
 const videoConstraints = {
   width: 1280,
   height: 750,
   facingMode: "user",
 };
 const Studio = () => {
+  const [state, dispatch] = usePhotoPiPContext();
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-  const [images, setImages] = useState<string[]>([]);
   const [isMirrored, setIsMirrored] = useState<boolean>(true);
   const [maxImages, setMaxImages] = useState<number>(4);
+  const [countdown, setCountdown] = useState<number>(0);
+  const [isCapturing, setIsCapturing] = useState<boolean>(false);
   const webcamRef = useRef<Webcam | null>(null);
+
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current
       ? webcamRef.current.getScreenshot()
       : null;
     if (imageSrc) {
-      if (images.length >= maxImages) {
-        return;
-      }
-      setImages((prevImages) => [...prevImages, imageSrc]);
+      dispatch({ type: "ADD_IMAGE", payload: imageSrc });
     }
-  }, [webcamRef]);
+  }, [webcamRef, maxImages, dispatch]);
+
+  const startCountdown = useCallback(() => {
+    if (state.images.length < maxImages && !isCapturing) {
+      setIsCapturing(true);
+      setCountdown(4);
+    }
+  }, [state.images.length, maxImages, isCapturing]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isCapturing && countdown > 0) {
+      timer = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+    } else if (isCapturing && countdown === 0) {
+      capture();
+      if (state.images.length < maxImages) {
+        setTimeout(() => {
+          setCountdown(4); // Reset countdown for the next capture
+        }, 500);
+        if (state.images.length + 1 >= maxImages) {
+          setIsCapturing(false);
+        }
+      }
+    }
+    return () => clearTimeout(timer);
+  }, [countdown, isCapturing, capture]);
+
+  useEffect(() => {
+    if (state.images.length >= maxImages) {
+      setTimeout(() => {
+        dispatch({ type: "FINISH", payload: true });
+        dispatch({ type: "START", payload: false });
+      }, 1000);
+    }
+  }, [state.images.length, maxImages, dispatch]);
 
   return (
     <div className="container h-dvh mx-auto p-2 flex flex-col gap-6 items-center">
@@ -42,11 +79,18 @@ const Studio = () => {
               height={900}
               ref={webcamRef}
               screenshotFormat="image/jpeg"
-              width={500}
+              width={450}
               className=""
               mirrored={isMirrored}
               videoConstraints={videoConstraints}
             />
+            {isCapturing && (
+              <div className="absolute inset-0 flex items-center justify-center z-10">
+                <div className="text-white text-8xl font-bold animate-pulse">
+                  {countdown}
+                </div>
+              </div>
+            )}
             <img
               src={"/paper-plane.png"}
               alt="sticker"
@@ -70,12 +114,12 @@ const Studio = () => {
             />
           </div>
         </div>
-        <PreviewImages images={images} />
+        <PreviewImages images={state.images} />
       </div>
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.25 }}
         className="absolute bottom-6 size-fit"
       >
         <Dock>
@@ -87,10 +131,11 @@ const Studio = () => {
           </DockIcon>
           <DockIcon
             onClick={() => {
-              if (images.length < maxImages) {
-                capture();
+              if (state.images.length < maxImages) {
+                startCountdown();
               } else {
-                alert(`Maximum of ${maxImages} images reached!`);
+                dispatch({ type: "FINISH", payload: true });
+                dispatch({ type: "START", payload: false });
               }
             }}
             className="bg-purple-400 text-white hover:bg-purple-500"
@@ -170,7 +215,7 @@ const Studio = () => {
                   ))}
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Current: {images.length} of {maxImages} images taken
+                  Current: {state.images.length} of {maxImages} images taken
                 </p>
               </div>
             </div>

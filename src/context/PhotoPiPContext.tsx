@@ -10,16 +10,26 @@ import {
 interface InitialState {
   isStarted: boolean;
   isFinished: boolean;
+  images: string[];
+  isMirrored: boolean;
+  maxImages: number;
 }
 
 const initialState: InitialState = {
   isStarted: false,
   isFinished: false,
+  images: [],
+  isMirrored: true,
+  maxImages: 4,
 };
 
 type PhotoPiPAction =
   | { type: "START"; payload: boolean }
-  | { type: "FINISH"; payload: boolean };
+  | { type: "FINISH"; payload: boolean }
+  | { type: "ADD_IMAGE"; payload: string }
+  | { type: "CLEAR_IMAGES" }
+  | { type: "SET_MIRRORED"; payload: boolean }
+  | { type: "SET_MAX_IMAGES"; payload: number };
 
 const PhotoPiPContext = createContext<{
   state: InitialState;
@@ -31,6 +41,14 @@ const reducer = (state: InitialState, action: PhotoPiPAction) => {
       return { ...state, isStarted: action.payload };
     case "FINISH":
       return { ...state, isFinished: action.payload };
+    case "ADD_IMAGE":
+      return { ...state, images: [...state.images, action.payload] };
+    case "CLEAR_IMAGES":
+      return { ...state, images: [] };
+    case "SET_MIRRORED":
+      return { ...state, isMirrored: action.payload };
+    case "SET_MAX_IMAGES":
+      return { ...state, maxImages: action.payload };
     default:
       return state;
   }

@@ -36,11 +36,10 @@ const PreviewImages = ({ images }: PreviewImagesProps) => {
             {images.map((image, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.7, rotate: index % 2 === 0 ? -5 : 5 }}
+                initial={{ opacity: 0, scale: 0.7}}
                 animate={{ 
                   opacity: 1, 
                   scale: 1,
-                  rotate: index % 2 === 0 ? 3 : -3,
                   y: hoveredIndex === index ? -10 : 0 
                 }}
                 whileHover={{ 
@@ -71,7 +70,7 @@ const PreviewImages = ({ images }: PreviewImagesProps) => {
           </motion.div>
         ) : (
           <motion.div 
-            className="w-full grid grid-cols-2 gap-4 justify-center"
+            className="w-full grid grid-cols-2 justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -82,12 +81,12 @@ const PreviewImages = ({ images }: PreviewImagesProps) => {
                 initial={{ 
                   opacity: 0, 
                   scale: 0.7, 
-                  rotate: index === 0 ? 5 : index === 1 ? -8 : index === 2 ? -10 : 12
+                  // rotate: index === 0 ? 5 : index === 1 ? -8 : index === 2 ? -10 : 12
                 }}
                 animate={{ 
                   opacity: 1, 
                   scale: 1,
-                  rotate: index === 0 ? 3 : index === 1 ? -6 : index === 2 ? -6 : 8,
+                  // rotate: index === 0 ? 3 : index === 1 ? -6 : index === 2 ? -6 : 8,
                   y: hoveredIndex === index ? -10 : 0 
                 }}
                 whileHover={{ 
@@ -106,7 +105,7 @@ const PreviewImages = ({ images }: PreviewImagesProps) => {
                 <motion.img
                   src={`/preview-image/${num}.png`}
                   alt={`Preview ${num}`}
-                  className="size-full sm:size-[85%] object-cover shadow-md border-[8] border-b-[30] border-gray-200 dark:border-gray-800"
+                  className="size-full sm:size-[90%] object-cover shadow-md border-[8] border-b-[30] border-gray-200 dark:border-gray-800"
                   style={{
                     boxShadow: hoveredIndex === index ? 
                       "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" : 
