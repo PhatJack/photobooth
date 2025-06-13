@@ -6,7 +6,6 @@ import Finished from "./_components/finished";
 
 export default function Home() {
   const [state] = usePhotoPiPContext();
-	console.log(state)
   if (state.isStarted) {
     return <Studio />;
   }

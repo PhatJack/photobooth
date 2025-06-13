@@ -16,6 +16,7 @@
 		"clsx": "^2.1.1",
 		"eslint-plugin-prettier": "^5.4.0",
 		"gsap": "^3.13.0",
+		"html2canvas": "^1.4.1",
 		"lucide-react": "^0.511.0",
 		"motion": "^12.12.2",
 		"next": "15.3.2",

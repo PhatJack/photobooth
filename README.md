@@ -34,3 +34,43 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Docker Deployment
+
+This project is configured for Docker deployment. Here's how to use it:
+
+### Building the Docker image
+
+```bash
+docker build -t photobooth .
+```
+
+### Running the Docker container
+
+```bash
+docker run -p 3000:3000 photobooth
+```
+
+### Using Docker Compose
+
+```bash
+# Start the application
+docker-compose up -d
+
+# Stop the application
+docker-compose down
+```
+
+### Development with Docker
+
+We've provided a separate Docker configuration for development:
+
+```bash
+# Start development environment with hot reloading
+docker-compose -f docker-compose.dev.yml up
+
+# Build and start in detached mode
+docker-compose -f docker-compose.dev.yml up -d --build
+```
+
+This setup uses volume mounting to enable hot reloading, so your changes will be reflected immediately without needing to rebuild the container.
